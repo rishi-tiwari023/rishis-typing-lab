@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 function Navbar({ isDarkMode, toggleDarkMode, handleClearStats }) {
   const location = useLocation();
+  const currentPath = location.pathname;
   
   return (
     <nav className={`w-full py-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
@@ -16,7 +17,7 @@ function Navbar({ isDarkMode, toggleDarkMode, handleClearStats }) {
               <Link
                 to="/"
                 className={`px-3 py-2 rounded-md text-sm font-medium ${
-                  location.pathname === '/'
+                  currentPath === '/'
                     ? 'bg-blue-500 text-white'
                     : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
@@ -26,7 +27,7 @@ function Navbar({ isDarkMode, toggleDarkMode, handleClearStats }) {
               <Link
                 to="/test"
                 className={`px-3 py-2 rounded-md text-sm font-medium ${
-                  location.pathname === '/test'
+                  currentPath === '/test'
                     ? 'bg-blue-500 text-white'
                     : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
@@ -36,7 +37,7 @@ function Navbar({ isDarkMode, toggleDarkMode, handleClearStats }) {
               <Link
                 to="/progress"
                 className={`px-3 py-2 rounded-md text-sm font-medium ${
-                  location.pathname === '/progress'
+                  currentPath === '/progress'
                     ? 'bg-blue-500 text-white'
                     : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
