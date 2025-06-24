@@ -44,7 +44,7 @@ npm install
 npm start
 ```
 
-The app will be available at `https://rishis-typing-lab.onrender.com/`
+You can access the app here: [App](https://rishis-typing-lab.onrender.com/)
 
 ## Project Structure
 
