@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import TypingBox from "./components/TypingBox";
-import StatsChart from "./components/StatsChart";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Progress from "./pages/Progress";
+import Test from "./pages/Test";
 import { clearStats } from "./utils/saveStatsToCookies";
 import "./App.css";
 
@@ -31,38 +35,27 @@ function App() {
   };
 
   return (
-    <div
-      className={`min-h-screen ${
-        isDarkMode ? "dark bg-gray-900" : "bg-gray-100"
-      }`}
-    >
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold dark:text-white">
-            Rishi's Typing Lab
-          </h1>
-          <div className="flex gap-4">
-            <button
-              onClick={handleClearStats}
-              className="px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-            >
-              Clear Stats
-            </button>
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-            >
-              {isDarkMode ? "🌞" : "🌙"}
-            </button>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center gap-8">
-          <TypingBox />
-          <StatsChart />
-        </div>
+    <Router>
+      <div
+        className={`min-h-screen flex flex-col ${
+          isDarkMode ? "dark bg-gray-900" : "bg-gray-100"
+        }`}
+      >
+        <Navbar
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+          handleClearStats={handleClearStats}
+        />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/progress" element={<Progress />} />
+          </Routes>
+        </main>
+        <Footer />
       </div>
-    </div>
+    </Router>
   );
 }
 

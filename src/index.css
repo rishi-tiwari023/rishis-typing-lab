@@ -25,3 +25,48 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-500 dark:bg-gray-500;
 }
+
+/* Custom styles for Slick carousel arrows */
+.slick-prev,
+.slick-next {
+  z-index: 10;
+  width: 30px;
+  height: 30px;
+}
+
+.slick-prev {
+  left: -35px;
+}
+
+.slick-next {
+  right: -35px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 30px;
+  opacity: 0.75;
+}
+
+/* Dark mode styles for carousel arrows */
+.dark .slick-prev:before,
+.dark .slick-next:before {
+  color: #fff;
+}
+
+/* Custom styles for Slick dots */
+.slick-dots {
+  bottom: -5px;
+}
+
+.slick-dots li button:before {
+  font-size: 8px;
+}
+
+.dark .slick-dots li button:before {
+  color: #fff;
+}
+
+.dark .slick-dots li.slick-active button:before {
+  color: #fff;
+}
