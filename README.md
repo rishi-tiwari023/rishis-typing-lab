@@ -52,18 +52,37 @@ You can access the app here: [App](https://rishis-typing-lab.onrender.com/)
 typing-app/
 ├── src/
 │   ├── components/
+│   │   ├── CarouselCard.jsx
+│   │   ├── Footer.jsx
 │   │   ├── Leaderboard.jsx
+│   │   ├── Navbar.jsx
 │   │   ├── ProgressBar.jsx
 │   │   ├── StatsChart.jsx
 │   │   └── TypingBox.jsx
 │   ├── hooks/
 │   │   └── useTypingTracker.js
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── Progress.jsx
+│   │   └── Test.jsx
 │   ├── utils/
 │   │   ├── getRandomSentence.js
 │   │   ├── monkeytypeApi.js
 │   │   └── saveStatsToCookies.js
-│   └── App.js
+│   ├── App.js
+│   ├── App.css
+│   ├── index.js
+│   └── index.css
 ├── public/
+│   ├── _redirects
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── tailwind.config.js
+├── postcss.config.js
 └── package.json
 ```
 
