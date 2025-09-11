@@ -7,6 +7,7 @@ import ProgressBar from "./ProgressBar";
 const TypingBox = () => {
   const [sentence, setSentence] = useState("");
   const [loading, setLoading] = useState(true);
+  const [duration, setDuration] = useState(30); // 15, 30, 60, 120
   const inputRef = useRef(null);
   const {
     typed,
@@ -14,9 +15,10 @@ const TypingBox = () => {
     wpm,
     accuracy,
     isComplete,
+    remainingSeconds,
     handleInput,
     reset,
-  } = useTypingTracker(sentence);
+  } = useTypingTracker(sentence, duration);
 
   // Fetch sentence on mount or reload
   const loadSentence = async () => {
@@ -36,7 +38,7 @@ const TypingBox = () => {
   // Save stats to cookies on completion
   useEffect(() => {
     if (isComplete) {
-      saveStatsToCookies({ wpm, accuracy, errors, raw: typed, sentence, date: new Date() });
+      saveStatsToCookies({ wpm, accuracy, errors, raw: typed, sentence, date: new Date(), duration });
     }
     // eslint-disable-next-line
   }, [isComplete]);
@@ -67,9 +69,30 @@ const TypingBox = () => {
 
   return (
     <div className="w-full p-6 bg-white dark:bg-gray-800 rounded shadow">
+      {/* Duration selector */}
+      <div className="flex items-center justify-center gap-2 mb-4">
+        {[15, 30, 60, 120].map((d) => (
+          <button
+            key={d}
+            className={`px-3 py-1 rounded text-sm border transition-colors ${duration === d
+              ? "bg-blue-600 text-white border-blue-600"
+              : "bg-transparent text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+              }`}
+            onClick={() => {
+              setDuration(d);
+              reset();
+              setTimeout(() => inputRef.current && inputRef.current.focus(), 50);
+            }}
+            disabled={loading}
+          >
+            {d}s
+          </button>
+        ))}
+      </div>
+
       {/* Progress Bar */}
       {!loading && (
-        <ProgressBar 
+        <ProgressBar
           typed={typed}
           sentence={sentence}
           wpm={wpm}
@@ -103,6 +126,7 @@ const TypingBox = () => {
           <span className="text-gray-700 dark:text-gray-300">WPM: <b>{wpm}</b></span>
           <span className="text-gray-700 dark:text-gray-300">Accuracy: <b>{accuracy}%</b></span>
           <span className="text-gray-700 dark:text-gray-300">Errors: <b>{errors}</b></span>
+          <span className="text-gray-700 dark:text-gray-300">Time: <b>{remainingSeconds ?? duration}s</b></span>
           {isComplete && <span className="text-green-600 dark:text-green-400 font-semibold">Completed!</span>}
         </div>
         <div className="flex gap-3 mt-2">
