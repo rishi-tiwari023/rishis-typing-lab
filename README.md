@@ -30,7 +30,7 @@ A modern React-based typing practice application that helps users improve their 
 
 1. Clone the repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/rishi-tiwari023/rishis-typing-lab.git
 cd typing-app
 ```
 
@@ -49,8 +49,27 @@ You can access the app here: [App](https://rishis-typing-lab.onrender.com/)
 ## Project Structure
 
 ```
-typing-app/
+rishis-typing-lab/
+├── Dockerfile
+├── README.md
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── render.yaml
+├── static.json
+├── tailwind.config.js
+├── public/
+│   ├── _redirects
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
 ├── src/
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
 │   ├── components/
 │   │   ├── CarouselCard.jsx
 │   │   ├── Footer.jsx
@@ -69,21 +88,14 @@ typing-app/
 │   │   ├── getRandomSentence.js
 │   │   ├── monkeytypeApi.js
 │   │   └── saveStatsToCookies.js
-│   ├── App.js
-│   ├── App.css
+│   ├── index.css
 │   ├── index.js
-│   └── index.css
-├── public/
-│   ├── _redirects
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── logo192.png
-│   ├── logo512.png
-│   ├── manifest.json
-│   └── robots.txt
-├── tailwind.config.js
-├── postcss.config.js
-└── package.json
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   ├── service-worker.js
+│   ├── serviceWorkerRegistration.js
+│   └── setupTests.js
+└── node_modules/
 ```
 
 ## Available Scripts
