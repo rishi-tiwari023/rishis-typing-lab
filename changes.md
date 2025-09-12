@@ -11,8 +11,11 @@ Changes made so far
 3) Fixes
 - Fixed stale WPM updates by using refs and final calculation on completion.
 
-Next steps requested
-- Remove accuracy/errors from the Typing Test page UI.
-- After time completion, auto-open Progress with latest stats.
-- Move typing tips and achievement goals from Progress to Home and keep charts on Progress.
+4) UI updates
+- Removed Accuracy and Errors from the Typing Test UI (`TypingBox`, `ProgressBar`).
+- Moved Tips and Achievement Goals from `Progress` to `Home` with sliders.
+- Added latest result summary (WPM, Accuracy, Errors) to `Progress` above chart.
+
+Pending/next
+- Auto-open Progress after time completion carrying the latest stats.
 
