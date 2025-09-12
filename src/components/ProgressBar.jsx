@@ -3,7 +3,7 @@ import React from 'react';
 const ProgressBar = ({ typed, sentence, wpm, accuracy, isComplete }) => {
   // Calculate progress percentage
   const progress = Math.min(100, Math.round((typed.length / sentence.length) * 100));
-  
+
   // Determine color based on progress
   const getProgressColor = () => {
     if (isComplete) return 'bg-green-500';
@@ -22,10 +22,6 @@ const ProgressBar = ({ typed, sentence, wpm, accuracy, isComplete }) => {
             <span className="font-semibold text-gray-700 dark:text-gray-300">WPM: </span>
             <span className="font-bold text-blue-600 dark:text-blue-400">{wpm}</span>
           </div>
-          <div className="text-lg">
-            <span className="font-semibold text-gray-700 dark:text-gray-300">Accuracy: </span>
-            <span className="font-bold text-green-600 dark:text-green-400">{accuracy}%</span>
-          </div>
         </div>
         <div className="text-lg">
           <span className="font-semibold text-gray-700 dark:text-gray-300">Progress: </span>
@@ -35,7 +31,7 @@ const ProgressBar = ({ typed, sentence, wpm, accuracy, isComplete }) => {
 
       {/* Progress bar */}
       <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-        <div 
+        <div
           className={`h-full transition-all duration-300 ${getProgressColor()}`}
           style={{ width: `${progress}%` }}
         />
