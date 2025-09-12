@@ -124,8 +124,6 @@ const TypingBox = () => {
         />
         <div className="flex justify-center gap-6 text-sm">
           <span className="text-gray-700 dark:text-gray-300">WPM: <b>{wpm}</b></span>
-          <span className="text-gray-700 dark:text-gray-300">Accuracy: <b>{accuracy}%</b></span>
-          <span className="text-gray-700 dark:text-gray-300">Errors: <b>{errors}</b></span>
           <span className="text-gray-700 dark:text-gray-300">Time: <b>{remainingSeconds ?? duration}s</b></span>
           {isComplete && <span className="text-green-600 dark:text-green-400 font-semibold">Completed!</span>}
         </div>
