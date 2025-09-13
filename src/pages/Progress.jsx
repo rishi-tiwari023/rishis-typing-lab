@@ -1,10 +1,6 @@
 import React, { useMemo } from 'react';
-import Slider from 'react-slick';
 import StatsChart from '../components/StatsChart';
-import CarouselCard from '../components/CarouselCard';
 import { getStatsFromCookies } from '../utils/saveStatsToCookies';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 function Progress() {
   // Latest result summary from cookies
@@ -14,34 +10,21 @@ function Progress() {
     return stats[0];
   }, []);
 
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    pauseOnHover: true,
-    arrows: true,
-    adaptiveHeight: true,
-    className: "h-full"
-  };
-
   return (
-    <div className="relative">
+    <div className="relative min-h-full">
       {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 dark:from-blue-900 dark:via-purple-900 dark:to-pink-900 opacity-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-100 via-pink-50 to-pink-100 dark:from-gray-900 dark:via-purple-900 dark:to-pink-900 opacity-50 pointer-events-none" />
 
       <div className="container mx-auto px-4 py-8 max-w-4xl relative">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-4 dark:text-white">Your Typing Progress</h1>
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold mb-3 dark:text-white">Typing Progress</h1>
           <p className="text-gray-600 dark:text-gray-300">
             Track your improvement over time with detailed statistics and charts
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-8 transform hover:scale-102 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transform hover:scale-102 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+          {/* Performance Overview Header */}
           <div className="flex items-center mb-6">
             <div className="inline-block p-3 mr-4 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 text-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,25 +33,30 @@ function Progress() {
             </div>
             <h2 className="text-2xl font-semibold dark:text-white">Performance Overview</h2>
           </div>
+
+          {/* Summary Statistics */}
           {latest && (
-            <div className="grid grid-cols-3 gap-4 mb-6 text-center">
-              <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-900">
-                <div className="text-gray-600 dark:text-gray-300 text-sm">WPM</div>
-                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{latest.wpm}</div>
+            <div className="grid grid-cols-3 gap-3 lg:gap-6 mb-6 text-center">
+              <div className="p-3 lg:p-6 rounded-lg bg-gray-50 dark:bg-gray-900">
+                <div className="text-gray-600 dark:text-gray-300 text-xs lg:text-sm mb-1 lg:mb-2">WPM</div>
+                <div className="text-2xl lg:text-4xl font-bold text-blue-600 dark:text-blue-400">{latest.wpm}</div>
               </div>
-              <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-900">
-                <div className="text-gray-600 dark:text-gray-300 text-sm">Accuracy</div>
-                <div className="text-2xl font-bold text-green-600 dark:text-green-400">{latest.accuracy}%</div>
+              <div className="p-3 lg:p-6 rounded-lg bg-gray-50 dark:bg-gray-900">
+                <div className="text-gray-600 dark:text-gray-300 text-xs lg:text-sm mb-1 lg:mb-2">Accuracy</div>
+                <div className="text-2xl lg:text-4xl font-bold text-green-600 dark:text-green-400">{latest.accuracy}%</div>
               </div>
-              <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-900">
-                <div className="text-gray-600 dark:text-gray-300 text-sm">Errors</div>
-                <div className="text-2xl font-bold text-red-500">{latest.errors ?? 0}</div>
+              <div className="p-3 lg:p-6 rounded-lg bg-gray-50 dark:bg-gray-900">
+                <div className="text-gray-600 dark:text-gray-300 text-xs lg:text-sm mb-1 lg:mb-2">Errors</div>
+                <div className="text-2xl lg:text-4xl font-bold text-red-500">{latest.errors ?? 0}</div>
               </div>
             </div>
           )}
-          <StatsChart />
+
+          {/* Chart Section */}
+          <div className="h-96">
+            <StatsChart />
+          </div>
         </div>
-        {/* Tips and goals removed; they will live on Home */}
       </div>
     </div>
   );
