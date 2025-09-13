@@ -10,6 +10,7 @@ export default function useTypingTracker(sentence, durationSeconds = 30) {
   const [wpm, setWpm] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
   const [remainingSeconds, setRemainingSeconds] = useState(durationSeconds);
+  const [correctChars, setCorrectChars] = useState(0);
   const timer = useRef(null);
   const startRef = useRef(null);
   const typedRef = useRef("");
@@ -23,6 +24,7 @@ export default function useTypingTracker(sentence, durationSeconds = 30) {
     setWpm(0);
     setAccuracy(100);
     setRemainingSeconds(durationSeconds);
+    setCorrectChars(0);
     if (timer.current) clearInterval(timer.current);
   }, [sentence, durationSeconds]);
 
@@ -37,10 +39,12 @@ export default function useTypingTracker(sentence, durationSeconds = 30) {
         const elapsedSec = Math.max(0, Math.floor((Date.now() - startRef.current) / 1000));
         const remain = Math.max(0, durationSeconds - elapsedSec);
         setRemainingSeconds(remain);
-        // live WPM from latest typed via ref
-        const elapsedMin = Math.max(1 / 60, elapsedSec / 60);
-        const words = typedRef.current.length / 5;
-        setWpm(Math.round(words / elapsedMin));
+        // live WPM from latest typed via ref (adjusted for accuracy)
+        if (correctChars > 0) {
+          const elapsedMin = Math.max(1 / 60, elapsedSec / 60);
+          const words = correctChars / 5;
+          setWpm(Math.round(words / elapsedMin));
+        }
         if (remain === 0) {
           setIsComplete(true);
         }
@@ -50,24 +54,34 @@ export default function useTypingTracker(sentence, durationSeconds = 30) {
     if (typed === sentence && sentence.length > 0) {
       setIsComplete(true);
     }
-    // Calculate errors
+    // Calculate errors and track correct characters
     let err = 0;
+    let newCorrectChars = 0;
     for (let i = 0; i < typed.length; i++) {
-      if (typed[i] !== sentence[i]) err++;
+      if (typed[i] !== sentence[i]) {
+        err++;
+      } else {
+        newCorrectChars++;
+      }
     }
     setErrors(err);
+    setCorrectChars(newCorrectChars);
     typedRef.current = typed;
+    
+    
     // Calculate accuracy
     setAccuracy(
       typed.length > 0
         ? Math.max(0, Math.round(((typed.length - err) / typed.length) * 100))
         : 100
     );
-    // Calculate WPM (idempotent in case timer hasn't ticked yet)
-    if (startTime && typed.length > 0 && !isComplete) {
-      const elapsedSec = Math.max(1, Math.floor((Date.now() - startTime) / 1000));
+    
+    // Calculate WPM based on correct characters and their timing
+    if (startTime && newCorrectChars > 0 && !isComplete) {
+      const now = Date.now();
+      const elapsedSec = Math.max(1, Math.floor((now - startTime) / 1000));
       const elapsedMin = elapsedSec / 60;
-      const words = typed.length / 5;
+      const words = newCorrectChars / 5;
       setWpm(Math.round(words / elapsedMin));
     }
     // Cleanup
@@ -77,19 +91,19 @@ export default function useTypingTracker(sentence, durationSeconds = 30) {
     // eslint-disable-next-line
   }, [typed, sentence, isComplete, durationSeconds]);
 
-  // Finalize WPM when completed, ensuring non-zero on last tick
+  // Finalize WPM when completed, ensuring non-zero on last tick (adjusted for accuracy)
   useEffect(() => {
     if (!isComplete) return;
     if (timer.current) {
       clearInterval(timer.current);
     }
-    if (startRef.current) {
+    if (startRef.current && correctChars > 0) {
       const elapsedSec = Math.min(durationSeconds, Math.max(1, Math.floor((Date.now() - startRef.current) / 1000)));
       const elapsedMin = elapsedSec / 60;
-      const words = typedRef.current.length / 5;
+      const words = correctChars / 5;
       setWpm(Math.max(0, Math.round(words / elapsedMin)));
     }
-  }, [isComplete, durationSeconds]);
+  }, [isComplete, durationSeconds, correctChars]);
 
   const handleInput = (value) => {
     if (isComplete) return;
@@ -105,6 +119,7 @@ export default function useTypingTracker(sentence, durationSeconds = 30) {
     setWpm(0);
     setAccuracy(100);
     setRemainingSeconds(durationSeconds);
+    setCorrectChars(0);
     if (timer.current) clearInterval(timer.current);
   };
 
