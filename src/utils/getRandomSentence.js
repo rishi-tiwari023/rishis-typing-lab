@@ -12,7 +12,7 @@ const englishWords = [
   "in",
   "that",
   "have",
-  "I",
+  "i",
   "it",
   "for",
   "not",
@@ -175,41 +175,41 @@ const fallbackSentences = [
  * Falls back to local word list if API fails
  * @returns {Promise<string>} A sentence for typing practice
  */
-export async function getRandomSentence() {
+export async function getRandomSentence(minWords = 35) {
   try {
-    // Try to get words from Monkeytype's API
-    const wordCount = Math.floor(Math.random() * 11) + 25; // Random number between 25-35
-    const words = await fetchWords(wordCount);
-
-    if (words && words.length > 0) {
-      // If we got words from the API, use them
-      const text = words.join(" ");
-      return text.charAt(0).toUpperCase() + text.slice(1);
-    } else {
-      throw new Error("No words returned from API");
+    // Try to get enough words from Monkeytype's API to satisfy minWords
+    const collected = [];
+    while (collected.length < minWords) {
+      const batchSize = Math.min(50, minWords - collected.length);
+      const words = await fetchWords(Math.max(25, batchSize));
+      if (!words || words.length === 0) throw new Error("No words returned from API");
+      collected.push(...words);
     }
+    const text = collected.slice(0, minWords).join(" ");
+    return text.charAt(0).toUpperCase() + text.slice(1);
   } catch (error) {
     console.warn("Error fetching from Monkeytype API, using fallback:", error);
 
     try {
-      // Use local word list as first fallback
+      // Use local word list as first fallback, ensuring minWords
       const selectedWords = [];
-      const wordCount = Math.floor(Math.random() * 11) + 25;
-
-      for (let i = 0; i < wordCount; i++) {
-        const randomWord =
-          englishWords[Math.floor(Math.random() * englishWords.length)];
+      for (let i = 0; i < minWords; i++) {
+        const randomWord = englishWords[Math.floor(Math.random() * englishWords.length)];
         selectedWords.push(randomWord);
       }
-
       const text = selectedWords.join(" ");
       return text.charAt(0).toUpperCase() + text.slice(1);
     } catch (fallbackError) {
       console.error("Error using word list fallback:", fallbackError);
-      // Use grammatically correct sentences as final fallback
-      return fallbackSentences[
-        Math.floor(Math.random() * fallbackSentences.length)
-      ];
+      // Use grammatically correct sentences as final fallback. Concatenate until minWords satisfied.
+      const sentences = [];
+      let totalWords = 0;
+      while (totalWords < minWords) {
+        const s = fallbackSentences[Math.floor(Math.random() * fallbackSentences.length)];
+        sentences.push(s);
+        totalWords += s.split(/\s+/).length;
+      }
+      return sentences.join(" ");
     }
   }
 }
