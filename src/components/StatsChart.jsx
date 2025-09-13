@@ -11,18 +11,18 @@ const StatsChart = () => {
   // Calculate statistics
   const stats = useMemo(() => {
     if (chartData.length === 0) return null;
-    
+
     const wpmValues = chartData.map(d => d.wpm);
     const accuracyValues = chartData.map(d => d.accuracy);
-    
+
     const avgWpm = wpmValues.reduce((a, b) => a + b, 0) / wpmValues.length;
     const avgAccuracy = accuracyValues.reduce((a, b) => a + b, 0) / accuracyValues.length;
-    
+
     return {
       avgWpm: Number(avgWpm.toFixed(1)),
       maxWpm: Math.max(...wpmValues),
       avgAccuracy: Number(avgAccuracy.toFixed(1)),
-      improvement: wpmValues.length > 1 ? 
+      improvement: wpmValues.length > 1 ?
         Number(((wpmValues[0] - wpmValues[wpmValues.length - 1]) / wpmValues[wpmValues.length - 1] * 100).toFixed(1)) : 0
     };
   }, [chartData]);
@@ -104,36 +104,32 @@ const StatsChart = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-      <div className="flex justify-between items-center mb-6">
+    <div className="h-full flex flex-col">
+      <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">Your Progress</h2>
         {stats && (
-          <div className="flex gap-4 text-sm">
-            <div className={`px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 transition-all duration-200 ${
-              hoveredData ? 'opacity-50' : ''
-            }`}>
+          <div className="flex flex-wrap gap-2 lg:gap-4 text-xs lg:text-sm">
+            <div className={`px-2 lg:px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 transition-all duration-200 ${hoveredData ? 'opacity-50' : ''
+              }`}>
               <span className="text-gray-600 dark:text-gray-300">Avg WPM: </span>
               <span className="text-purple-600 dark:text-purple-400 font-semibold">{stats.avgWpm}</span>
             </div>
-            <div className={`px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 transition-all duration-200 ${
-              hoveredData ? 'opacity-50' : ''
-            }`}>
+            <div className={`px-2 lg:px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 transition-all duration-200 ${hoveredData ? 'opacity-50' : ''
+              }`}>
               <span className="text-gray-600 dark:text-gray-300">Max WPM: </span>
               <span className="text-purple-600 dark:text-purple-400 font-semibold">{stats.maxWpm}</span>
             </div>
-            <div className={`px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 transition-all duration-200 ${
-              hoveredData ? 'opacity-50' : ''
-            }`}>
+            <div className={`px-2 lg:px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 transition-all duration-200 ${hoveredData ? 'opacity-50' : ''
+              }`}>
               <span className="text-gray-600 dark:text-gray-300">Avg Accuracy: </span>
               <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{stats.avgAccuracy}%</span>
             </div>
             {stats.improvement !== 0 && (
-              <div className={`px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 transition-all duration-200 ${
-                hoveredData ? 'opacity-50' : ''
-              }`}>
+              <div className={`px-2 lg:px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 transition-all duration-200 ${hoveredData ? 'opacity-50' : ''
+                }`}>
                 <span className="text-gray-600 dark:text-gray-300">Progress: </span>
-                <span className={stats.improvement > 0 ? 
-                  "text-green-600 dark:text-green-400 font-semibold" : 
+                <span className={stats.improvement > 0 ?
+                  "text-green-600 dark:text-green-400 font-semibold" :
                   "text-red-600 dark:text-red-400 font-semibold"
                 }>
                   {stats.improvement > 0 ? '+' : ''}{stats.improvement}%
@@ -163,20 +159,20 @@ const StatsChart = () => {
           </div>
         </div>
       )}
-      
+
       {loading ? (
-        <div className="h-80 flex items-center justify-center">
+        <div className="flex-1 flex items-center justify-center">
           <div className="animate-pulse text-gray-600 dark:text-gray-400">Loading statistics...</div>
         </div>
       ) : error ? (
-        <div className="h-80 flex items-center justify-center">
+        <div className="flex-1 flex items-center justify-center">
           <p className="text-red-600 dark:text-red-400">{error}</p>
         </div>
       ) : chartData.length > 0 ? (
-        <div className="h-80 relative">
+        <div className="flex-1 relative min-h-0">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart 
-              data={chartData} 
+            <LineChart
+              data={chartData}
               margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
               onMouseMove={(data) => {
                 if (data.activePayload) {
@@ -185,20 +181,20 @@ const StatsChart = () => {
               }}
               onMouseLeave={() => setHoveredData(null)}
             >
-              <CartesianGrid 
-                strokeDasharray="3 3" 
+              <CartesianGrid
+                strokeDasharray="3 3"
                 stroke="rgba(107, 114, 128, 0.2)"
                 vertical={false}
               />
-              <XAxis 
-                dataKey="attempt" 
+              <XAxis
+                dataKey="attempt"
                 stroke="#6b7280"
                 tick={{ fill: '#6b7280' }}
                 axisLine={{ stroke: '#d1d5db' }}
                 tickLine={{ stroke: '#d1d5db' }}
                 className="dark:text-gray-400"
               />
-              <YAxis 
+              <YAxis
                 yAxisId="left"
                 stroke="#6b7280"
                 tick={{ fill: '#6b7280' }}
@@ -206,17 +202,17 @@ const StatsChart = () => {
                 tickLine={{ stroke: '#d1d5db' }}
                 domain={[0, dataMax => Math.max(150, Math.ceil(dataMax / 50) * 50)]}
                 tickFormatter={value => value.toFixed(1)}
-                label={{ 
-                  value: 'Words per Minute', 
-                  angle: -90, 
+                label={{
+                  value: 'Words per Minute',
+                  angle: -90,
                   position: 'insideLeft',
                   style: { fill: '#6b7280', fontSize: 14 },
                   offset: 0
                 }}
                 className="dark:text-gray-400"
               />
-              <YAxis 
-                yAxisId="right" 
+              <YAxis
+                yAxisId="right"
                 orientation="right"
                 stroke="#6b7280"
                 tick={{ fill: '#6b7280' }}
@@ -224,9 +220,9 @@ const StatsChart = () => {
                 tickLine={{ stroke: '#d1d5db' }}
                 domain={[0, 100]}
                 tickFormatter={value => value.toFixed(1)}
-                label={{ 
-                  value: 'Accuracy %', 
-                  angle: 90, 
+                label={{
+                  value: 'Accuracy %',
+                  angle: 90,
                   position: 'insideRight',
                   style: { fill: '#6b7280', fontSize: 14 },
                   offset: 0
@@ -234,19 +230,19 @@ const StatsChart = () => {
                 className="dark:text-gray-400"
               />
               {stats && (
-                <ReferenceLine 
-                  y={stats.avgWpm} 
-                  yAxisId="left" 
-                  stroke="#8b5cf6" 
+                <ReferenceLine
+                  y={stats.avgWpm}
+                  yAxisId="left"
+                  stroke="#8b5cf6"
                   strokeDasharray="3 3"
-                  label={{ 
-                    value: 'Avg WPM', 
+                  label={{
+                    value: 'Avg WPM',
                     position: 'insideTopLeft',
                     fill: '#8b5cf6'
-                  }} 
+                  }}
                 />
               )}
-              <Tooltip 
+              <Tooltip
                 content={<CustomTooltip />}
                 cursor={{ stroke: 'rgba(107, 114, 128, 0.2)' }}
               />
@@ -258,14 +254,14 @@ const StatsChart = () => {
                 name="WPM"
                 stroke="#8b5cf6"
                 strokeWidth={3}
-                dot={{ 
+                dot={{
                   stroke: '#8b5cf6',
                   strokeWidth: 2,
                   r: 4,
                   fill: '#ffffff',
                   className: 'dark:fill-gray-900'
                 }}
-                activeDot={{ 
+                activeDot={{
                   r: 8,
                   stroke: '#8b5cf6',
                   strokeWidth: 2,
@@ -282,14 +278,14 @@ const StatsChart = () => {
                 name="Accuracy %"
                 stroke="#10b981"
                 strokeWidth={3}
-                dot={{ 
+                dot={{
                   stroke: '#10b981',
                   strokeWidth: 2,
                   r: 4,
                   fill: '#ffffff',
                   className: 'dark:fill-gray-900'
                 }}
-                activeDot={{ 
+                activeDot={{
                   r: 8,
                   stroke: '#10b981',
                   strokeWidth: 2,
@@ -303,7 +299,7 @@ const StatsChart = () => {
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className="h-80 flex flex-col items-center justify-center gap-2">
+        <div className="flex-1 flex flex-col items-center justify-center gap-2">
           <p className="text-gray-600 dark:text-gray-400 text-lg">
             No progress data yet
           </p>
