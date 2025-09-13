@@ -90,7 +90,7 @@ function Home() {
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 dark:from-blue-900 dark:via-purple-900 dark:to-pink-900 opacity-10 pointer-events-none" />
 
-      <div className="container mx-auto px-4 py-8 max-w-4xl relative">
+      <div className="container mx-auto px-4 py-8 max-w-7xl relative">
         <div className="text-center mb-8">
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
             Improve your typing speed and accuracy with our interactive typing test platform
@@ -103,15 +103,15 @@ function Home() {
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(293px, 1fr))' }}>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
             <div className="inline-block p-3 mb-4 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 text-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h2 className="text-2xl font-semibold mb-4 dark:text-white">Features</h2>
-            <ul className="space-y-3 text-gray-600 dark:text-gray-300">
+            <h2 className="text-xl font-semibold mb-4 dark:text-white">Features</h2>
+            <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
               <li className="flex items-center">
                 <span className="mr-2">•</span>
                 Real-time WPM calculation
@@ -135,14 +135,14 @@ function Home() {
             </ul>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
             <div className="inline-block p-3 mb-4 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <h2 className="text-2xl font-semibold mb-4 dark:text-white">How to Use</h2>
-            <ol className="space-y-3 text-gray-600 dark:text-gray-300">
+            <h2 className="text-xl font-semibold mb-4 dark:text-white">How to Use</h2>
+            <ol className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
               <li className="flex items-center">
                 <span className="mr-2 font-medium">1.</span>
                 Click on "Start Typing Test"
@@ -165,23 +165,8 @@ function Home() {
               </li>
             </ol>
           </div>
-        </div>
 
-        <div className="text-center">
-          <Link
-            to="/progress"
-            className="inline-flex items-center text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium group"
-          >
-            View Your Progress
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </Link>
-        </div>
-
-        {/* Moved from Progress: Tips and Achievement Goals */}
-        <div className="grid md:grid-cols-2 gap-6 mt-8">
-          <div className="h-[400px] bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 transform hover:scale-102 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
             <div className="flex items-center mb-4">
               <div className="inline-block p-3 mr-4 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -190,16 +175,18 @@ function Home() {
               </div>
               <h3 className="text-xl font-semibold dark:text-white">Typing Tips</h3>
             </div>
-            <Slider {...sliderSettings}>
-              {tips.map((tip, index) => (
-                <div key={index} className="h-full pb-12">
-                  <CarouselCard title={tip.title} items={tip.items} />
-                </div>
-              ))}
-            </Slider>
+            <div className="h-80 overflow-hidden">
+              <Slider {...sliderSettings}>
+                {tips.map((tip, index) => (
+                  <div key={index} className="h-full pb-8">
+                    <CarouselCard title={tip.title} items={tip.items} />
+                  </div>
+                ))}
+              </Slider>
+            </div>
           </div>
 
-          <div className="h-[400px] bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 transform hover:scale-102 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-200 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
             <div className="flex items-center mb-4">
               <div className="inline-block p-3 mr-4 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -208,13 +195,15 @@ function Home() {
               </div>
               <h3 className="text-xl font-semibold dark:text-white">Achievement Goals</h3>
             </div>
-            <Slider {...sliderSettings}>
-              {achievements.map((achievement, index) => (
-                <div key={index} className="h-full pb-12">
-                  <CarouselCard title={achievement.title} items={achievement.items} />
-                </div>
-              ))}
-            </Slider>
+            <div className="h-80 overflow-hidden">
+              <Slider {...sliderSettings}>
+                {achievements.map((achievement, index) => (
+                  <div key={index} className="h-full pb-8">
+                    <CarouselCard title={achievement.title} items={achievement.items} />
+                  </div>
+                ))}
+              </Slider>
+            </div>
           </div>
         </div>
       </div>
